@@ -15,9 +15,6 @@ public class ReadFile {
 		
 		String line = "";
 		
-		//ArrayList<Actor> actorList = new ArrayList<Actor>();
-		ArrayList<String> listTest = new ArrayList<String>(); //arrayList test to see if reading in file works
-		
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(path));
@@ -25,7 +22,19 @@ public class ReadFile {
 			//skip row one
 			br.readLine();
 			
+			
+			//ArrayList<String> list = new ArrayList<String>();
+			
 			while ((line = br.readLine()) != null) { //While br has next line to read
+				
+				
+				//List of Actors
+				ArrayList<Actor> actorList = new ArrayList<Actor>();
+				
+				//List of Movies
+				ArrayList<Movie> movieList = new ArrayList<Movie>();
+				
+				
 				
 				//Splitting right at cast column index
 				String[] values = line.split("\\["); //values[1] gets the 3rd column
@@ -34,48 +43,73 @@ public class ReadFile {
 				String cast = values[1];
 				
 				
-				int startChar = cast.indexOf("character"); // returns index of character starts
 				
-				ArrayList<String> list = new ArrayList<String>();
+				//Split at commas to get movie column
+				String[] movieColumn = line.split(",");
+				//String movieName = movieColumn[1];      //got the values in movie column
+				Movie movieName = new Movie(movieColumn[1].toString());
 				
-				int startCharName = startChar + 15; //beggining of character Name 
-				
-				int startName = cast.indexOf("name");
-				
-				int startActorName = startName + 10;
+				movieList.add(movieName);
 				
 				
-				while (startChar > 0 ) { //change upper bounds to 0
-					int endChar = cast.indexOf("\"", startCharName); //indexOf(string, start search from)
-					
-					String role = cast.substring(startCharName, endChar); //(start index, end index)
-					list.add(role); //just checking to see if any value recorded
-					
-					
-					int endActorName = cast.indexOf("\"", startActorName);
-					
-					String nameList = cast.substring(startActorName, endActorName);
-					
-					list.add(nameList);
-					
-					break;
-					
-				}
 				
-				System.out.println(line);
+				//This creates a list of Strings that contain the title, but I want list to be Movie objects
+//				String movieName = movieColumn[1];
+//				ArrayList<String> movieList = new ArrayList<String>();
+//				movieList.add(movieName);
 				
-				System.out.println(cast);
+				
+				
+				
+				//startWordChar finds index of word "character"
+				int startWordChar = cast.indexOf("character"); // returns index of character starts
+				
+				//startWordName finds the index of word "name"
+				int startWordName = cast.indexOf("name"); //gets the "name" index
+				
+				
+//				while (startWordChar > 0 ) { 
+//					int startCharName = startWordChar + 15; //finds value of character name
+//					int startActorName = startWordName + 10; //finds value of actor's real name
+//					
+//					//UPDATED ENDCHAR AND START CHAR
+//					int endChar = cast.indexOf("\"", startCharName); //finds value of the end of character's name
+//					int endActorName = cast.indexOf("\"", startActorName); //finds value of end of Actot's real name
+//					
+//					
+//					if (endChar < cast.length() && cast.contains("character") && startCharName < cast.length()) { //if endChar is still in cast str && cast contains word char
+//						String role = cast.substring(startCharName, endChar);  //role (character name) is created
+//						
+//						String name = cast.substring(startActorName, endActorName); //getting value of Actor's name
+//						
+//						actorList.add(Actor(name, role, )); 										//adding actor's name to list
+//					}
+//					
+//					
+//					startWordChar = cast.indexOf("character", endChar + 1);  //finds next value of word "character"
+//					
+//					
+//					startWordName = cast.indexOf("name", endActorName + 1);  //finds next value of word "name"
+//					
+//					//break;
+//					
+//				}
 		
-				System.out.println(list.toString());
+				//System.out.println(list.toString() + ", ");
+				System.out.println(movieList);
+				
+				for (int i = 0; i < movieList.size(); i++) {
+					System.out.println(movieList.get(i));
+				}
+	
 
 				
 				break; //i know you hate this, but just to test first line of file
-				
 
 				
 			}
-
 		
+
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -89,25 +123,3 @@ public class ReadFile {
 }}
 
 
-
-//initilize castColumnString to be split into castColumnArr to split again
-//String[] castColumnArr;
-
-////Creating arr where each field is seperated into arr
-////essentially reading JSON file part
-//castColumnArr = castColumnString.split(":|,");
-//
-//
-//System.out.println(line); //printing out original first line
-//System.out.println(castColumnString); // printing out cast column of first line (test)
-//
-//System.out.println(castColumnArr[2]); //value we want to search for (test)
-//System.out.println(castColumnArr[3]); //value we want when ""character"" is found
-//
-//for (int i = 0; i < castColumnArr.length; i++) { //iterate through castColumnArr
-//	if (castColumnArr[i].equals("\"\"character\"\"")) { //if castColumnArr[i] = to ""character""
-//		listTest.add(castColumnArr[i+1]); //add value next of it to listTest
-//	}
-//}
-//
-//System.out.println(listTest.get(0)); //testing to see if anything was added to arrayList
