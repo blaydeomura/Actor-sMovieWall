@@ -20,7 +20,7 @@ public class Role {
 	
 	@Override
 	public String toString() {
-		return "Role [movie=" + movie + ", character=" + character + "]";
+		return "Movie: " + movie + " as " + character;
 	}
 	
 	

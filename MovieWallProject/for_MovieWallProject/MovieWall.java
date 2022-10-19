@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class MovieWall {
 
 	//List of Actors
-	ArrayList<Actor> actorList = new ArrayList<Actor>();
+	static ArrayList<Actor> actorList = new ArrayList<Actor>();
 	
 	
 	public void readFile() {
@@ -27,8 +28,6 @@ public class MovieWall {
 			//skip row one
 			br.readLine();
 			
-//			//List of Actors
-//			ArrayList<Actor> actorList = new ArrayList<Actor>();
 			
 			//List of Movies
 			ArrayList<Movie> movieList = new ArrayList<Movie>();
@@ -36,7 +35,7 @@ public class MovieWall {
 			
 //			while ((line = br.readLine()) != null) { //While br has next line to read
 			int count = 0;
-			while ((line = br.readLine()) != null && count < 101) {
+			while ((line = br.readLine()) != null && count < 101) { //erase later
 				
 				count++;
 				
@@ -62,9 +61,9 @@ public class MovieWall {
 				int startWordName = cast.indexOf("name"); //gets the "name" index
 				
 
-				if (movieName.equals("Mulan")) {
-					System.out.println("Found");
-				}
+//				if (movieName.equals("Mulan")) {
+//					System.out.println("Found");
+//				}
 				
 
 				
@@ -82,12 +81,26 @@ public class MovieWall {
 						
 						String name = cast.substring(startActorName, endActorName); //getting value of Actor's name
 						
-						Role role = new Role(movieName, character);
+						Role role = new Role(movieName, character);	
 						
+						
+						
+						//add this back
+						//Actor addActor = new Actor(name, role);
+						
+						
+						getActor(name, role);
+						
+						
+						//else create new actor
+						
+						//actorList.add(addActor);
 					
-						Actor addActor = getActor(name);
-						addActor.addMovie(role);
-						//System.out.println(addActor); //print actors
+						//addActor.addMovie(role);
+						//System.out.print(addActor); //print actors
+						
+						
+						
 					}
 					
 					
@@ -96,15 +109,24 @@ public class MovieWall {
 					
 					startWordName = cast.indexOf("name", endActorName + 1);  //finds next value of word "name"
 					
+					
 				}
 				
 				//break; //i know you hate this, but just to test first line of file
 			}
 //			System.out.println(movieList);
+			
 //			System.out.println(actorList);
 			
-
+			Collections.sort(actorList, new SortComparator());
 			
+//			System.out.println(actorList);
+			
+			
+			
+//			System.out.println(actorList.get(10).getRole());
+			
+
 
 			
 		} catch (FileNotFoundException e) {
@@ -115,55 +137,38 @@ public class MovieWall {
 			e.printStackTrace();
 		}
 	}
-
-
 	
-	//Things to do
-	//Get input from user and print out wall
-	//gives me right actor, if not exist, creates new
-
-	//Start with binary search on the actorList
-	//If bin search fails, then I need to insert new 
-	//Insertion different because start with something outside of list
-	public Actor getActor(String name) {
-		for (int i =0; i < actorList.size(); i++) {
-			if (actorList.get(i).equals(name)) 
-				return actorList.get(i);
-		}
-		//if not found
-		Actor actor = new Actor(name);
-		actorList.add(actor);
-		return actor;
+	public static ArrayList<Actor> getActorList () {
+		return actorList;
 	}
 	
 	
-//FAILED IMPLEMENTATION OF INSERTION SORT	
-//trying to implement insertion sort
-//	public Actor getActor(String name) {
-//		for (int i =0; i < actorList.size(); i++) {
-//			if (actorList.get(i).equals(name)) { 
-//				return actorList.get(i);
-//			}
-//		}
-//		actorList.add(null);
-//		Actor actor = new Actor(name);
-//		int y;   
-//		int z;
-//		Actor key;  //key
-//		for (z = 1; z < actorList.size(); z++) {  //iterate through size starting at names[1]
-//			key = actor;  //changing
-//			y = z - 1;            //y is set to beginning of arrayList
-//			while (y >= 0 && actorList.get(y).compareToIgnoreCase(key) > 0) {				  //while (i <= 0) keep looping  going
-//				actorList.set(y+1, key);
-//				y--;
-//				}
-//				actorList.set(y+1, key);  //names[1] = names[0] --> jennifer law, then sam
-//			}
-//		return actor;
-//		}
-
-	int actorListLength = actorList.size();
 	
+//removing duplicates
+	public Actor getActor(String name, Role role) {
+		for (int i = 0; i < actorList.size(); i++) {
+			if (actorList.get(i).getName().equals(name)) {
+				actorList.get(i).addMovie(role);
+				return actorList.get(i);
+			}
+		}
+		Actor addActor = new Actor(name, role);
+		actorList.add(addActor);
+		return addActor;
+	}
+
+	
+//trouble comparing 
+	public static Actor linSearch(String actorSearch, ArrayList<Actor> actorList) {
+		for (int j = 0; j < getActorList().size(); j++) {
+			if (actorSearch.equals(getActorList().get(j).getName())) 
+				//System.out.println(getActorList().get(i));
+				return getActorList().get(j);
+		}
+		//return a name similar to that of the name requested
+		//just returning random value for now
+		return getActorList().get(20);
+	}
 	
 	
 	public static void main(String[] args) {
@@ -172,27 +177,53 @@ public class MovieWall {
 		MovieWall mw = new MovieWall();
 		mw.readFile();
 		
+		//Name that I want to find DELETE Later
+		System.out.println(getActorList().get(31).getName());
+		
+		
 		//UserInterface ui = new UserInterface();
 		System.out.println("Welcome to the Movie Wall!");
 		System.out.println("Enter the name of your desired actor or type 'EXIT' to quit.");
 		
+		//delete testing
+		//System.out.println(getActorList().size());
+		
 		Scanner scan = new Scanner(System.in);
-		String findActor = scan.next();
+		String actorSearch = scan.next();
+//		
+//		
+//		for (int i = 0; i < getActorList().size(); i++) {
+//			if (findActor.equals(getActorList().get(i).getName())) 
+//				//System.out.println(getActorList().get(i));
+//				System.out.println("Nice!");
+//		}
+		
+		//System.out.println(getActorList().get(3).getName());
+		System.out.println(linSearch(actorSearch, getActorList()));
+		
+
+		
+
+		
+		
+		
+		
+		
 		
 		
 		
 		//Trying to test linear search and print movie wall
 		//
-		for (int i = 0; i < actorList.size(); i++) {
-			if (findActor.equals(actorList.get(i))) {
-				System.out.println(actorList.get(i));
-			}
-			else
-				//return someone similar?
-		}
-		
-		
-		//System.out.println(findActor);
+//		for (int i = 0; i < actorList.size(); i++) {
+//			if (findActor.equals(actorList.get(i))) {
+//				System.out.println(actorList.get(i));
+//			}
+//			else
+//				//return someone similar?
+//		}
+//		
+//		
+//		System.out.println(findActor);
 
 		
 		

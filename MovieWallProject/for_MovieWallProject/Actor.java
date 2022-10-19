@@ -23,14 +23,19 @@ public class Actor {
 	
 	
 	//When actor exists in ActorList
-	public void addMovie(Role theRole) {
+	public Actor addMovie(Role theRole) { //maybe take out actor
 		role = theRole;
 		actorMoviesList.add(role);
+		return null;
 	}
 	
 	
 	public String getName() {
 		return name;
+	}
+	
+	public ArrayList<Role> getRole() {
+		return actorMoviesList;
 	}
 	
 
