@@ -158,17 +158,35 @@ public class MovieWall {
 	}
 
 	
-//trouble comparing 
+//trouble comparing  (version 1)
 	public static Actor linSearch(String actorSearch, ArrayList<Actor> actorList) {
 		for (int j = 0; j < getActorList().size(); j++) {
 			if (actorSearch.equals(getActorList().get(j).getName())) 
-				//System.out.println(getActorList().get(i));
+//				System.out.println(getActorList().get(j));
+				System.out.println(j); 
 				return getActorList().get(j);
 		}
 		//return a name similar to that of the name requested
 		//just returning random value for now
 		return getActorList().get(20);
 	}
+	
+
+//Version two without getActorList()	
+//	public static Actor linSearch(String actorSearch, ArrayList<Actor> actorList) {
+//		for (int j = 0; j < actorList().size(); j++) {
+//			if (actorSearch.equals(actorList().get(j).getName())) 
+//				//System.out.println(getActorList().get(i));
+//				return actorList().get(j);
+//		}
+//		//return a name similar to that of the name requested
+//		//just returning random value for now
+//		return getActorList().get(20);
+//	}
+	
+	
+	
+	
 	
 	
 	public static void main(String[] args) {
@@ -182,14 +200,19 @@ public class MovieWall {
 		
 		
 		//UserInterface ui = new UserInterface();
-		System.out.println("Welcome to the Movie Wall!");
-		System.out.println("Enter the name of your desired actor or type 'EXIT' to quit.");
+//		System.out.println("Welcome to the Movie Wall!");
+//		System.out.println("Enter the name of your desired actor or type 'EXIT' to quit.");
 		
 		//delete testing
 		//System.out.println(getActorList().size());
 		
-		Scanner scan = new Scanner(System.in);
-		String actorSearch = scan.next();
+//		Scanner scan = new Scanner(System.in);
+		String actorSearch = "Adam Godley";
+		
+		
+		
+		
+		
 //		
 //		
 //		for (int i = 0; i < getActorList().size(); i++) {
@@ -199,7 +222,9 @@ public class MovieWall {
 //		}
 		
 		//System.out.println(getActorList().get(3).getName());
-		System.out.println(linSearch(actorSearch, getActorList()));
+//		System.out.println(linSearch(actorSearch, getActorList()));
+		
+		System.out.println(actorList);
 		
 
 		
